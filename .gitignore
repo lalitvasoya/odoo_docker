@@ -1,0 +1,4 @@
+odoo_postgres/
+data/sessions/
+data/addons/
+.env

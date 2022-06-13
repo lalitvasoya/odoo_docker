@@ -1,0 +1,22 @@
+version: '3'
+services:
+  odoo:
+    image: odoo:15.0
+    user: root
+    depends_on:
+      - postgres
+    ports:
+      - "8099:8069"
+    volumes:
+      - ./data:/var/lib/odoo
+      - ./config:/etc/odoo
+
+  postgres:
+    image: postgres:13
+    env_file:
+      - .env
+    expose:
+      - 5432
+    volumes:
+      - ./odoo_postgres:/var/lib/postgresql/data/pgdata
+
