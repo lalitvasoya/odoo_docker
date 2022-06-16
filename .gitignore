@@ -1,4 +1,5 @@
 odoo_postgres/
-data/sessions/
-data/addons/
+data/
+pgadmin_data/
 .env
+*.pyc
