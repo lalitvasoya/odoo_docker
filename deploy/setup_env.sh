@@ -7,3 +7,6 @@ echo PGDATA=$PGDATA >> .env
 echo HOST=$HOST >> .env
 echo USER=$USER >> .env
 echo PASSWORD=$PASSWORD >> .env
+
+# for volume
+mkdir data
