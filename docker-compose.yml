@@ -22,7 +22,7 @@ services:
     image: postgres:13
     container_name: db_cnt
     env_file:
-      - .env 
+      - .env
     volumes:
       - ./odoo_postgres:/var/lib/postgresql/data/pgdata
 
@@ -30,9 +30,13 @@ services:
     build: ./nginx
     container_name: nginx_cnt
     ports:
-      - 81:80
+      - 80:80
       - 443:443
     expose:
       - 80
     depends_on:
       - odoo
+
+    external_links:
+      - odoo
+      - db
