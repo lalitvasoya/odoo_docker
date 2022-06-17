@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+  odoo:
+    image: odoo:15.0
+    # container_name: odoo_cnt
+    # restart: always
+    user: root
+    depends_on:
+      - db
+    env_file:
+      - .env
+    ports:
+      - "8069:8069"
+      - "8071:8071"
+      - "8072:8072"
+    # expose:
+    #   - 8069
+    volumes:
+      - ./data:/var/lib/odoo
+      - ./addons:/mnt/extra-addons
+      - ./config:/etc/odoo
+
+  db:
+    image: postgres:13
+    # container_name: db_cnt
+    # restart: always
+    env_file:
+      - .env
+    # expose:
+    #   - 5432
+    volumes:
+      - ./odoo_postgres:/var/lib/postgresql/data/pgdata
+
+  # pgadmin:
+  #   container_name: pgadmin_cnt
+  #   image: dpage/pgadmin4:5.4
+  #   restart: always
+  #   ports:
+  #     - 8080:80
+  #   # networks:
+  #   #   - odoo-networks
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: lalit.vasoya@tntra.io
+  #     PGADMIN_DEFAULT_PASSWORD: secret
+  #     PGADMIN_LISTEN_PORT: 80
+  #   depends_on:
+  #     - db
+  #   volumes:
+  #     - ./pgadmin_data:/var/lib/pgadmin
+
+  # nginx-server:
+  #   build: ./nginx
+  #   container_name: nginx_cnt
+  #   ports:
+  #     - 81:80
+  #     - 443:443
+  #   expose:
+  #     - 80
+  #   depends_on:
+  #     - odoo
