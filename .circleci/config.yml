@@ -22,7 +22,7 @@ jobs:
           command: docker exec odoo_cnt bash -c "odoo -i base -d $POSTGRES_DB --stop-after-init --db_host=$POSTGRES_HOST -r $POSTGRES_USER -w $POSTGRES_PASSWORD"
       - run:
           name: Testing the extra addons
-          command: docker exec odoo_cnt bash -c "odoo --addons='/mnt/extra-addons' -i todo --log-level=test -d $POSTGRES_DB --test-enable --stop-after-init --db_host=$POSTGRES_HOST -r $POSTGRES_USER -w $POSTGRES_PASSWORD"
+          command: docker exec odoo_cnt bash -c "odoo -i todo --log-level=test -d $POSTGRES_DB --test-enable --stop-after-init --db_host=$POSTGRES_HOST -r $POSTGRES_USER -w $POSTGRES_PASSWORD"
 
   deploy:
     docker:
