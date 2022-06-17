@@ -16,7 +16,8 @@ jobs:
           command: docker-compose up --build -d
       - run:
           name: Testing the extra addons
-          command: odoo --addons=/mnt/extra-addons -i todo --log-level=test -d $POSTGRES_DB --test-enable --stop-after-init --db_host=$POSTGRES_HOST -r $POSTGRES_USER -w $POSTGRES_PASSWORD
+          command: >
+            docker exec odoo_cnt bash -c "odoo --addons=/mnt/extra-addons -i todo --log-level=test -d $POSTGRES_DB --test-enable --stop-after-init --db_host=$POSTGRES_HOST -r $POSTGRES_USER -w $POSTGRES_PASSWORD"
 
   deploy:
     docker:
@@ -26,9 +27,9 @@ jobs:
           fingerprints:
             - asdasd
       - run:
-        name: deploying
-        command: >
-          ssh -o StrictHostKeyChecking=no $SERVER_HOST "cd odoo_docker && source deploy/build.sh $CIRCLE_BRANCH $GIT_USERNAME $GIT_PASSWORD"
+          name: deploying
+          command: >
+            ssh -o StrictHostKeyChecking=no $SERVER_HOST "cd odoo_docker && source deploy/build.sh $CIRCLE_BRANCH $GIT_USERNAME $GIT_PASSWORD"
 
 workflows:
   deployment-workflows:
