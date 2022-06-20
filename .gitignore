@@ -3,3 +3,4 @@ data/
 pgadmin_data/
 .env
 *.pyc
+venv/

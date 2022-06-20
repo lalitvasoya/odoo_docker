@@ -3,7 +3,7 @@ version: 2.1
 
 jobs:
 
-  linting-test:
+  test:
     docker:
       - image: cimg/base:2022.06
     steps:
@@ -12,5 +12,37 @@ jobs:
           docker_layer_caching: true
           version: 20.10.14
       - run:
-          name: Build docker
+          name: Prepare environment file
+          command: source deploy/setup_env.sh
+      - run:
+          name: Building docker environment
           command: docker-compose up --build -d
+      - run:
+          name: Initializing the data
+          command: docker exec odoo_cnt bash -c "odoo -i base -d $POSTGRES_DB --stop-after-init --db_host=$POSTGRES_HOST -r $POSTGRES_USER -w $POSTGRES_PASSWORD"
+      - run:
+          name: Testing the extra addons
+          command: docker exec odoo_cnt bash -c "odoo -i todo --log-level=test -d $POSTGRES_DB --test-enable --stop-after-init --db_host=$POSTGRES_HOST -r $POSTGRES_USER -w $POSTGRES_PASSWORD"
+
+  deploy:
+    docker:
+      - image: cimg/base:2022.06
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - asdasd
+      - run:
+          name: deploying
+          command: >
+            ssh -o StrictHostKeyChecking=no $SERVER_HOST "cd odoo_docker && source deploy/build.sh $CIRCLE_BRANCH $GIT_USERNAME $GIT_PASSWORD"
+
+workflows:
+  deployment-workflows:
+    jobs:
+      - test
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
