@@ -9,7 +9,7 @@ class TestTodoModel(common.TransactionCase):
         self.assertEqual(record.task, task)
 
     def test_create_action_second(self):
-        task = "abc"
+        task = "abcd"
         record = self.env['todo'].create({'task': task})
         task = "updated todo"
         record = self.env['todo'].search([], order='id desc')[0]
