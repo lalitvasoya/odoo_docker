@@ -30,7 +30,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - asdasd
+            - $FINGER_PRINT
       - run:
           name: deploying
           command: >
