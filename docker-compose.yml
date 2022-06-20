@@ -7,15 +7,15 @@ services:
     user: root
     depends_on:
       - db
-    ports:
-      - "8069:8069"
+    # ports:
+    #   - "8069:8069"
     expose:
       - 8069
     env_file:
       - .env
     volumes:
       - ./data:/var/lib/odoo
-      - ./addons:/mnt/extra-addons
+      - ./addons:/mnt/extra-addons--addons='/mnt/extra-addons'
       - ./config:/etc/odoo
 
   db:
