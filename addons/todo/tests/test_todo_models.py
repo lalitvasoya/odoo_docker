@@ -12,7 +12,7 @@ class TestTodoModel(common.TransactionCase):
         task = "abcd"
         record = self.env['todo'].create({'task': task})
         task = "updated todo"
-        record = self.env['todo'].search([], order='id desc')[0]
+        record = self.env['todo'].search([], order='id desc')[1]
         id_updated = record.write({'task': task})
         self.assertEqual(id_updated, True)
         self.assertEqual(record.task, task)
