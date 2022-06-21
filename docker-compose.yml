@@ -15,7 +15,7 @@ services:
       - .env
     volumes:
       - ./data:/var/lib/odoo
-      - ./addons:/mnt/extra-addons--addons='/mnt/extra-addons'
+      - ./addons:/mnt/extra-addons'
       - ./config:/etc/odoo
 
   db:
